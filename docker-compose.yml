@@ -19,7 +19,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
     ports:
       - "5050:80"
-  test-dev-db:
+  test-db:
     image: postgres:16
     restart: always
     ports:
@@ -31,7 +31,7 @@ services:
   test-pgadmin:
     image: dpage/pgadmin4
     depends_on:
-      - dev-db
+      - test-db
     restart: always
     environment:
       PGADMIN_DEFAULT_PASSWORD: root

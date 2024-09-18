@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Injectable, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Injectable, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { JwtGuard } from "../auth/guard";
 import { GetUser } from "../auth/decorator";
 import { User } from "@prisma/client";
+import { EditUserDto } from "./dto";
 
  
-@Controller('user')
+@Controller('users')
 export class UserController{
     constructor(private userServie: UserService) {}
 
@@ -17,8 +18,8 @@ export class UserController{
         return user
     }
 
-    @Post('edit')
-    signin() {
-        return 'i am signed in'
+    @Patch('edit')
+    editUser(@GetUser('id') userId: number, @Body() dto: EditUserDto) {
+        return this.userServie.editUser(userId, dto)
     }
 }
