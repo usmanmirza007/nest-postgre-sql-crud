@@ -1,6 +1,7 @@
-import { Body, Controller, Post, Req } from "@nestjs/common";
+import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { Request } from "express";
+import { AuthGuard } from "@nestjs/passport";
 
  
 
@@ -9,11 +10,12 @@ import { Request } from "express";
 export class UserController{
     constructor(private userServie: UserService) {}
 
-    @Post('add')
-    signup(@Body() body: any) {
-        console.log('body', body);
+    @UseGuards(AuthGuard('jwt'))
+    @Get('me')
+    getMe(@Req() req: Request) {
+        console.log('body', );
         
-        return 'i am signed up'
+        return req.user
     }
 
     @Post('edit')
