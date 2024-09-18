@@ -1,6 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
 import * as pactum from 'pactum';
 import { AppModule } from './../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
@@ -79,7 +78,7 @@ describe('AppController (e2e)', () => {
         pactum.handler.addCaptureHandler('get token', (ctx) => {
           // console.log('res', ctx.res.body.access_token);
           console.log('ctx.store', ctx.store);
-          
+
           return ctx.store;
         });
         it('should throw if email empty', () => {
@@ -114,8 +113,8 @@ describe('AppController (e2e)', () => {
             // .stores('userAt', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidmxkQGdtYWlsLmNvbSIsImlhdCI6MTcyNjQ4MjE5MiwiZXhwIjoxNzI2NDgzMDkyfQ.bB_vQ3DKxrnI0dcrsDKGiGhFhQIdkjwvXuMepFmoFuw')
             .stores('userAt', '#first post id')
             .inspect()
-          })
         })
+      })
     })
 
     describe('User', () => {
@@ -123,7 +122,7 @@ describe('AppController (e2e)', () => {
 
       describe('Get me', () => {
         it('should get current user', () => {
-          
+
           return pactum
             .spec()
             .get('/users/me')
