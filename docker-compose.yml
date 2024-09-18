@@ -9,8 +9,11 @@ services:
       POSTGRES_USER: root 
       POSTGRES_PASSWORD: root
       POSTGRES_DB: nest
+    hostname: postgres-db
   pgadmin:
     image: dpage/pgadmin4
+    depends_on:
+      - dev-db
     restart: always
     environment:
       PGADMIN_DEFAULT_PASSWORD: root

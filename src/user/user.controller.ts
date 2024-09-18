@@ -1,5 +1,6 @@
-import { Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Req } from "@nestjs/common";
 import { UserService } from "./user.service";
+import { Request } from "express";
 
  
 
@@ -8,12 +9,14 @@ import { UserService } from "./user.service";
 export class UserController{
     constructor(private userServie: UserService) {}
 
-    @Post('singup')
-    signup() {
+    @Post('add')
+    signup(@Body() body: any) {
+        console.log('body', body);
+        
         return 'i am signed up'
     }
 
-    @Post('signin')
+    @Post('edit')
     signin() {
         return 'i am signed in'
     }
