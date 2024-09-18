@@ -4,6 +4,7 @@ import * as pactum from 'pactum';
 import { AppModule } from './../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { AuthDto } from 'src/auth/dto';
+import { EditUserDto } from 'src/user/dto';
 
 
 describe('AppController (e2e)', () => {
@@ -118,7 +119,7 @@ describe('AppController (e2e)', () => {
     })
 
     describe('User', () => {
-      let accessToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidmxkQGdtYWlsLmNvbSIsImlhdCI6MTcyNjQ4NjEyNSwiZXhwIjoxNzI2NDg3MDI1fQ.w6XBJze4EGfRB0ylS04va2xyHgY8vHNdqM_EneEr17c'
+      let accessToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidmxkQGdtYWlsLmNvbSIsImlhdCI6MTcyNjY1ODYwNSwiZXhwIjoxNzI2NjU5NTA1fQ.PeQgT4E7gmpmGi7GaIYKtVdg5Hj6y7UP4D9h3dSFN_A'
 
       describe('Get me', () => {
         it('should get current user', () => {
@@ -134,11 +135,40 @@ describe('AppController (e2e)', () => {
         })
       })
 
-      describe('Edit user', () => { })
+      describe('Edit user', () => {
+        it('should edit user', () => {
+          const dto: EditUserDto = {
+            firstName: 'Test',
+            email: 'test@gmail.com'
+          }
+          return pactum
+            .spec()
+            .patch('/users/edit')
+            .withHeaders('Authorization', `Bearer ${accessToken}`)
+            .withHeaders('Accept', 'application/json')
+            .withBody(dto)
+            .expectStatus(200)
+            .inspect()
+        })
+      })
 
     })
 
     describe('Bookmarks', () => {
+      let accessToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidmxkQGdtYWlsLmNvbSIsImlhdCI6MTcyNjY1ODYwNSwiZXhwIjoxNzI2NjU5NTA1fQ.PeQgT4E7gmpmGi7GaIYKtVdg5Hj6y7UP4D9h3dSFN_A'
+
+      describe('Get empty bookmark', () => {
+        it('should get bookmark', () => {
+
+          return pactum
+            .spec()
+            .get('/bookmarks')
+            .withHeaders('Authorization', `Bearer ${accessToken}`)
+            .withHeaders('Accept', 'application/json')
+            .expectStatus(200)
+            .inspect()
+        })
+      })
       describe('Create bookmark', () => { })
       describe('Get bookmarks', () => { })
       describe('Get bookmar by id', () => { })
