@@ -1,14 +1,20 @@
-version: '3.8'
+version: '3.9'
 services:
   dev-db:
     image: postgres:16
+    restart: always
     ports:
       - 5434:5432
-    enviroment:
-      POSTGRES: postgres
-      POSTGRES_password: 123
+    environment:
+      POSTGRES_USER: root 
+      POSTGRES_PASSWORD: root
       POSTGRES_DB: nest
-    network:
-      - freecodecamp
-network:
-  freecodecamp: 
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+    ports:
+      - "5050:80"
+
