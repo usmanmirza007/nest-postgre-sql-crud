@@ -6,11 +6,11 @@ import { User } from "@prisma/client";
 import { EditUserDto } from "./dto";
 
 
+@UseGuards(JwtGuard)
 @Controller('users')
 export class UserController {
     constructor(private userServie: UserService) { }
 
-    @UseGuards(JwtGuard)
     @Get('me')
     getMe(@GetUser() user: User) {
         return user
