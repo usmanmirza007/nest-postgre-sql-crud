@@ -25,7 +25,9 @@ export class AuthService {
             console.log('err', error);
             
             if (error instanceof PrismaClientKnownRequestError) {
-                throw new ForbiddenException('Credentails taken')
+                if (error.code === 'P2002') {   
+                    throw new ForbiddenException('Credentails taken')
+                }
             }
             console.log('err', error);
 
@@ -33,7 +35,24 @@ export class AuthService {
         }
     }
 
-    signin() {
-        return { login: true }
+    async signin(dto: AuthDto) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                email: dto.email
+            }
+        })
+
+        if (!user) {
+            throw new ForbiddenException('User not found')
+        }
+
+        const passwordMatch = await argon.verify(user.hash, dto.password)
+
+        if (!passwordMatch) {
+            throw new ForbiddenException('Credentials incorrect')
+        }
+        delete user.hash
+        return user
+
     }
 }
