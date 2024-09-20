@@ -7,6 +7,9 @@ import { BookmarkController } from './bookmark/bookmark.controller';
 import { BookmarkService } from './bookmark/bookmark.service';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { ProductModule } from './product/product.module';
+import { DatabaseController } from './database/database.controller';
+import { DatabaseService } from './database/database.service';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -15,9 +18,10 @@ import { ProductModule } from './product/product.module';
     AuthModule,
     PrismaModule,
     BookmarkModule,
-    ProductModule
+    ProductModule,
+    DatabaseModule
   ],
-  controllers: [BookmarkController],
-  providers: [BookmarkService],
+  controllers: [BookmarkController, DatabaseController],
+  providers: [BookmarkService, DatabaseService],
 })
 export class AppModule { }
