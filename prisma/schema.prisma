@@ -42,3 +42,19 @@ model Bookmark {
 
   @@map("bookmarks")
 }
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name         String       @unique
+  price        Float
+  sale         Boolean
+  availibility Availibility
+}
+
+enum Availibility {
+  IN_STORE
+  ONLINE
+}
