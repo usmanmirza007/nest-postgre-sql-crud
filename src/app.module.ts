@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { BookmarkController } from './bookmark/bookmark.controller';
 import { BookmarkService } from './bookmark/bookmark.service';
 import { BookmarkModule } from './bookmark/bookmark.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { BookmarkModule } from './bookmark/bookmark.module';
     UserModule,
     AuthModule,
     PrismaModule,
-    BookmarkModule
+    BookmarkModule,
+    ProductModule
   ],
   controllers: [BookmarkController],
   providers: [BookmarkService],
