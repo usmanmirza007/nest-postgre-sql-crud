@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthDto } from './dto';
 import * as argon from 'argon2'
@@ -15,8 +15,15 @@ export class AuthService {
     ) { }
     async signup(dto: AuthDto) {
         try {
-            console.log('fofof', dto);
 
+            const userExsit = await this.prisma.user.findUnique({
+                where: {
+                    email: dto.email
+                }
+            })
+            if (userExsit && userExsit.email == dto.email) {
+                throw new ConflictException('email already taken')
+            }
             const hash = await argon.hash(dto.password)
             const user = await this.prisma.user.create({
                 data: {
@@ -27,15 +34,7 @@ export class AuthService {
             return this.signToken(user.id, user.email)
 
         } catch (error) {
-            console.log('err', error);
-
-            if (error instanceof PrismaClientKnownRequestError) {
-                if (error.code === 'P2002') {
-                    throw new ForbiddenException('Credentails taken')
-                }
-            }
-            console.log('err', error);
-
+            console.log('err auth', error);
             throw error
         }
     }
