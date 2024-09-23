@@ -33,19 +33,19 @@ describe('AppController (e2e)', () => {
     it.todo('should pass')
 
     let accessToken: string
-      pactum.handler.addCaptureHandler('get token', (ctx) => {
-        accessToken = ctx.res.body.access_token
-        return ctx.res.body.access_token;
-      });
+    pactum.handler.addCaptureHandler('get token', (ctx) => {
+      accessToken = ctx.res.body.access_token
+      return ctx.res.body.access_token;
+    });
 
-      let bookmarkId: string
-      pactum.handler.addCaptureHandler('get bookmark id', (ctx) => {
-        bookmarkId = ctx.res.body?.id
-        return ctx.res.body?.id
-      });
+    let bookmarkId: string
+    pactum.handler.addCaptureHandler('get bookmark id', (ctx) => {
+      bookmarkId = ctx.res.body?.id
+      return ctx.res.body?.id
+    });
     describe('Auth', () => {
       const dto: AuthDto = {
-        email: 'vld@gmail.com',
+        email: 'test123@gmail.com',
         password: '123'
       }
 
@@ -56,7 +56,7 @@ describe('AppController (e2e)', () => {
             .post('/auth/signup')
             .withBody({ password: dto.password })
             .expectStatus(400)
-            // .inspect()
+          // .inspect()
         })
         it('should throw if password empty', () => {
           return pactum
@@ -64,14 +64,14 @@ describe('AppController (e2e)', () => {
             .post('/auth/signup')
             .withBody({ email: dto.email })
             .expectStatus(400)
-            // .inspect()
+          // .inspect()
         })
         it('should throw if no body provided', () => {
           return pactum
             .spec()
             .post('/auth/signup')
             .expectStatus(400)
-            // .inspect()
+          // .inspect()
         })
         it('should signup', () => {
           return pactum
@@ -91,7 +91,7 @@ describe('AppController (e2e)', () => {
             .post('/auth/signin')
             .withBody({ password: dto.password })
             .expectStatus(400)
-            // .inspect()
+          // .inspect()
         })
         it('should throw if password empty', () => {
           return pactum
@@ -99,7 +99,7 @@ describe('AppController (e2e)', () => {
             .post('/auth/signin')
             .withBody({ email: dto.email })
             .expectStatus(400)
-            // .inspect()
+          // .inspect()
         })
         it('should throw if no body provided', () => {
           return pactum
@@ -132,14 +132,39 @@ describe('AppController (e2e)', () => {
             .get('/users/me')
             .withHeaders('Authorization', `Bearer ${accessToken}`)
             .withHeaders('Accept', 'application/json')
-            // .withBearerToken('userAt')
             .expectStatus(200)
-            // .inspect()
+          // .inspect()
+        })
+
+        it('should get unauthorization token', () => {
+
+          return pactum
+            .spec()
+            .get('/users/me')
+            // .withHeaders('Authorization', `Bearer ${accessToken}`)
+            .withHeaders('Accept', 'application/json')
+            .expectStatus(401)
+          // .inspect()
         })
       })
 
       describe('Edit user', () => {
         it('should edit user', () => {
+          const dto: EditUserDto = {
+            firstName: 'Test',
+            lastName: 'name'
+          }
+          return pactum
+            .spec()
+            .patch('/users/edit')
+            .withHeaders('Authorization', `Bearer ${accessToken}`)
+            .withHeaders('Accept', 'application/json')
+            .withBody(dto)
+            .expectStatus(200)
+          // .inspect()
+        })
+
+        it('should email taken', () => {
           const dto: EditUserDto = {
             firstName: 'Test',
             email: 'test@gmail.com'
@@ -150,8 +175,8 @@ describe('AppController (e2e)', () => {
             .withHeaders('Authorization', `Bearer ${accessToken}`)
             .withHeaders('Accept', 'application/json')
             .withBody(dto)
-            .expectStatus(200)
-            // .inspect()
+            .expectStatus(409)
+          // .inspect()
         })
       })
 
@@ -169,11 +194,11 @@ describe('AppController (e2e)', () => {
             .withHeaders('Authorization', `Bearer ${accessToken}`)
             .withHeaders('Accept', 'application/json')
             .expectStatus(200)
-            // .inspect()
+          // .inspect()
         })
       })
 
-      describe('Create bookmark', () => { 
+      describe('Create bookmark', () => {
         it('should create bookmark', () => {
           const dto: CreateBookmarkDto = {
             title: 'test',
@@ -192,7 +217,7 @@ describe('AppController (e2e)', () => {
         })
       })
 
-      describe('Get bookmarks', () => { 
+      describe('Get bookmarks', () => {
         it('should get bookmark', () => {
 
           return pactum
@@ -217,7 +242,7 @@ describe('AppController (e2e)', () => {
             .expectStatus(200)
             .inspect()
         })
-       })
+      })
 
       describe('Edit bookmar', () => {
         it('should edit bookmark', () => {
@@ -236,7 +261,7 @@ describe('AppController (e2e)', () => {
             .expectStatus(200)
             .inspect()
         })
-       })
+      })
 
       describe('Delete bookmar', () => {
 
@@ -249,9 +274,9 @@ describe('AppController (e2e)', () => {
             .withHeaders('Authorization', `Bearer ${accessToken}`)
             .withHeaders('Accept', 'application/json')
             .expectStatus(200)
-            // .inspect()
+          // .inspect()
         })
-       })
+      })
 
     })
   })
