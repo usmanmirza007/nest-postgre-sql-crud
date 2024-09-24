@@ -44,12 +44,14 @@ describe('AppController (e2e)', () => {
       return ctx.res.body?.id
     });
     describe('Auth', () => {
+
       const dto: AuthDto = {
         email: 'test123@gmail.com',
         password: '123'
       }
 
       describe('Signup', () => {
+    
         it('should throw if email empty', () => {
           return pactum
             .spec()
@@ -73,6 +75,15 @@ describe('AppController (e2e)', () => {
             .expectStatus(400)
           // .inspect()
         })
+        it('should throw email already taken', () => {
+          return pactum
+            .spec()
+            .post('/auth/signup')
+            .withBody(dto)
+            .expectStatus(409)
+          // .inspect()
+        })
+
         it('should signup', () => {
           return pactum
             .spec()
@@ -122,7 +133,6 @@ describe('AppController (e2e)', () => {
     })
 
     describe('User', () => {
-      // let accessToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidmxkQGdtYWlsLmNvbSIsImlhdCI6MTcyNjY1ODYwNSwiZXhwIjoxNzI2NjU5NTA1fQ.PeQgT4E7gmpmGi7GaIYKtVdg5Hj6y7UP4D9h3dSFN_A'
 
       describe('Get me', () => {
         it('should get current user', () => {
@@ -183,7 +193,6 @@ describe('AppController (e2e)', () => {
     })
 
     describe('Bookmarks', () => {
-      // let accessToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidmxkQGdtYWlsLmNvbSIsImlhdCI6MTcyNjY1ODYwNSwiZXhwIjoxNzI2NjU5NTA1fQ.PeQgT4E7gmpmGi7GaIYKtVdg5Hj6y7UP4D9h3dSFN_A'
 
       describe('Get empty bookmark', () => {
         it('should get bookmark', () => {
