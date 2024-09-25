@@ -10,6 +10,7 @@ import { ProductModule } from './product/product.module';
 import { DatabaseController } from './database/database.controller';
 import { DatabaseService } from './database/database.service';
 import { DatabaseModule } from './database/database.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { DatabaseModule } from './database/database.module';
     PrismaModule,
     BookmarkModule,
     ProductModule,
-    DatabaseModule
+    DatabaseModule,
+    UploadModule
   ],
   controllers: [BookmarkController, DatabaseController],
   providers: [BookmarkService, DatabaseService],
