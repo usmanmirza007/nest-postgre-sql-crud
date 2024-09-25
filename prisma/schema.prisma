@@ -23,6 +23,7 @@ model User {
 
   firstName String?
   lastName  String?
+  picture String?
   Bookmark  Bookmark[]
 
   @@map("users")
