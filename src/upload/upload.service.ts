@@ -28,4 +28,27 @@ export class UploadService {
             }
         })
     }
+    async uploadMultipleFiles(file:{ avatar?: Express.Multer.File, background?: Express.Multer.File }, userId: number) {
+
+        const userExsit = await this.prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        if (!userExsit) {
+            throw new NotFoundException('User not found')
+        }
+
+        this.prisma.user.update({
+            where: {
+                id: userExsit.id
+            },
+            data: {
+                ...userExsit,
+                avatar: file.avatar.filename.toString()
+                background: file.avatar.filename.toString()
+            }
+        })
+    }
 }

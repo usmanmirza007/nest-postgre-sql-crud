@@ -1,5 +1,5 @@
-import { BadRequestException, Controller, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { BadRequestException, Controller, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter, ImageValidator } from './validator';
 import { GetUser } from '../auth/decorator';
@@ -11,8 +11,8 @@ export class UploadController {
         private uploadService: UploadService,
         private readonly imageValidator: ImageValidator
     ) { }
-    
-    @Post()
+
+    @Post('file')
     @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
             destination: './file',
@@ -32,6 +32,35 @@ export class UploadController {
             throw new BadRequestException(this.imageValidator.buildErrorMessage(file));
         }
         this.uploadService.uploadFile(file, userId)
+    }
+
+    @Post('files')
+    @UseInterceptors(FileFieldsInterceptor(
+        [
+            { name: 'avatar', maxCount: 1 },
+            { name: 'background', maxCount: 1 }
+        ],
+        {
+            storage: diskStorage({
+                destination: './file',
+                filename: editFileName
+            }),
+            fileFilter: imageFileFilter
+        }
+    ))
+
+    uploadMultipleFiles(@UploadedFiles() files: { avatar?: Express.Multer.File, background?: Express.Multer.File }, @GetUser('id') userId: number) {
+        console.log(files);
+
+        const validateFiles = (fileArray?: Express.Multer.File) => {
+            if (!this.imageValidator.isValid(fileArray)) {
+                throw new BadRequestException(this.imageValidator.buildErrorMessage(fileArray));
+            }
+        };
+        validateFiles(files.avatar);
+        validateFiles(files.background);
+
+        this.uploadService.uploadMultipleFiles(files, userId)
     }
 
 }
