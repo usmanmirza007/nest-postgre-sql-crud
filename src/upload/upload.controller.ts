@@ -11,7 +11,7 @@ export class UploadController {
         private uploadService: UploadService,
         private readonly imageValidator: ImageValidator
     ) { }
-
+    
     @Post()
     @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
@@ -33,4 +33,5 @@ export class UploadController {
         }
         this.uploadService.uploadFile(file, userId)
     }
+
 }

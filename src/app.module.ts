@@ -11,6 +11,8 @@ import { DatabaseController } from './database/database.controller';
 import { DatabaseService } from './database/database.service';
 import { DatabaseModule } from './database/database.module';
 import { UploadModule } from './upload/upload.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -21,7 +23,12 @@ import { UploadModule } from './upload/upload.module';
     BookmarkModule,
     ProductModule,
     DatabaseModule,
-    UploadModule
+    UploadModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+      serveRoot: 'static',
+      serveStaticOptions: {index: false}
+    })
   ],
   controllers: [BookmarkController, DatabaseController],
   providers: [BookmarkService, DatabaseService],
