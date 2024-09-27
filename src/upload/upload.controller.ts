@@ -2,7 +2,7 @@ import { BadRequestException, Controller, MaxFileSizeValidator, ParseFilePipe, P
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter, ImageValidator } from './validator';
-import { GetUser } from 'src/auth/decorator';
+import { GetUser } from '../auth/decorator';
 import { UploadService } from './upload.service';
 
 @Controller('upload')
