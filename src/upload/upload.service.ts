@@ -3,8 +3,8 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UploadService {
-    constructor(private prisma: PrismaService) {}
-    
+    constructor(private prisma: PrismaService) { }
+
 
     async uploadFile(file: Express.Multer.File, userId: number) {
 
@@ -28,7 +28,7 @@ export class UploadService {
             }
         })
     }
-    async uploadMultipleFiles(file:{ avatar?: Express.Multer.File, background?: Express.Multer.File }, userId: number) {
+    async uploadMultipleFiles(file: { avatar?: Express.Multer.File, background?: Express.Multer.File }, userId: number) {
 
         const userExsit = await this.prisma.user.findUnique({
             where: {
