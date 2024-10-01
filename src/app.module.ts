@@ -27,7 +27,7 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
       serveRoot: 'static',
-      serveStaticOptions: {index: false}
+      serveStaticOptions: { index: false }
     })
   ],
   controllers: [BookmarkController, DatabaseController],
