@@ -4,7 +4,9 @@ import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter, ImageValidator } from './validator';
 import { GetUser } from '../auth/decorator';
 import { UploadService } from './upload.service';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Upload')
 @Controller('upload')
 export class UploadController {
     constructor(

@@ -4,9 +4,11 @@ import { JwtGuard } from "../auth/guard";
 import { GetUser } from "../auth/decorator";
 import { User } from "@prisma/client";
 import { EditUserDto } from "./dto";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 
 @UseGuards(JwtGuard)
+@ApiTags('User')
 @Controller('users')
 export class UserController {
     constructor(private userServie: UserService) { }

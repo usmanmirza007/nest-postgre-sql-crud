@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Prisma } from '@prisma/client';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+@ApiTags('Product')
 @Controller('product')
 export class ProductController {
     constructor(private productService: ProductService) {}
