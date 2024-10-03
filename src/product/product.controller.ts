@@ -3,6 +3,7 @@ import { ProductService } from './product.service';
 import { Prisma } from '@prisma/client';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiTags('Product')
+@ApiBearerAuth('JWT-auth')
 @Controller('product')
 export class ProductController {
     constructor(private productService: ProductService) {}

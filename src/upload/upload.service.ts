@@ -46,8 +46,8 @@ export class UploadService {
             },
             data: {
                 ...userExsit,
-                avatar: file.avatar.filename.toString()
-                background: file.avatar.filename.toString()
+                // avatar: file.avatar.filename.toString()
+                // background: file.avatar.filename.toString()
             }
         })
     }

@@ -4,9 +4,10 @@ import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter, ImageValidator } from './validator';
 import { GetUser } from '../auth/decorator';
 import { UploadService } from './upload.service';
-import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Upload')
+@ApiBearerAuth('JWT-auth')
 @Controller('upload')
 export class UploadController {
     constructor(
@@ -22,7 +23,18 @@ export class UploadController {
         }),
         fileFilter: imageFileFilter
     }))
-
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({
+        schema: {
+            type: 'object',
+            properties: {
+                file: {
+                    type: 'string',
+                    format: 'binary', // File type in Swagger
+                },
+            },
+        },
+    })
     uploadFile(@UploadedFile(
         new ParseFilePipe({
             validators: [
@@ -50,7 +62,29 @@ export class UploadController {
             fileFilter: imageFileFilter
         }
     ))
-
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({
+        schema: {
+            type: 'object',
+            properties: {
+                avatar: {
+                    type: 'string',
+                    format: 'binary',
+                },
+                background: {
+                    type: 'string',
+                    format: 'binary',
+                },
+                // background: {
+                //     type: 'array',       // for array of images upload
+                //     items: {
+                //         type: 'string',
+                //         format: 'binary',
+                //     },
+                // },
+            },
+        },
+    })
     uploadMultipleFiles(@UploadedFiles() files: { avatar?: Express.Multer.File, background?: Express.Multer.File }, @GetUser('id') userId: number) {
         console.log(files);
 

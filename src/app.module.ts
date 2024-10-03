@@ -7,7 +7,6 @@ import { BookmarkController } from './bookmark/bookmark.controller';
 import { BookmarkService } from './bookmark/bookmark.service';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { ProductModule } from './product/product.module';
-import { DatabaseController } from './database/database.controller';
 import { DatabaseService } from './database/database.service';
 import { DatabaseModule } from './database/database.module';
 import { UploadModule } from './upload/upload.module';
@@ -30,7 +29,7 @@ import { join } from 'path';
       serveStaticOptions: { index: false }
     })
   ],
-  controllers: [BookmarkController, DatabaseController],
+  controllers: [BookmarkController],
   providers: [BookmarkService, DatabaseService],
 })
 export class AppModule { }

@@ -7,6 +7,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtGuard)
 @ApiTags('Bookmark')
+@ApiBearerAuth('JWT-auth')
 @Controller('bookmarks')
 export class BookmarkController {
     constructor(private bookmarkService: BookmarkService) { }

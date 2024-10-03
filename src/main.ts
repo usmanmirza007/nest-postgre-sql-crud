@@ -29,6 +29,18 @@ async function bootstrap() {
     .build()
   const document = SwaggerModule.createDocument(app, config);
 
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,  // Persist token authorization across pages
+      // Inject JavaScript to auto-authorize after login
+      scripts: [
+        {
+          src: './swagger/swagger-auth.js',     // this file to jwt token persist 
+          async: true,
+        },
+      ],
+    },
+  });
   await app.listen(3333);
 }
 bootstrap();
