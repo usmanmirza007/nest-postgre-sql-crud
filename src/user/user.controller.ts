@@ -3,8 +3,8 @@ import { UserService } from "./user.service";
 import { JwtGuard } from "../auth/guard";
 import { GetUser } from "../auth/decorator";
 import { User } from "@prisma/client";
-import { EditUserDto } from "./dto";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { EditUserDto, GetUserDto } from "./dto";
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 
 @UseGuards(JwtGuard)
@@ -15,6 +15,10 @@ export class UserController {
     constructor(private userServie: UserService) { }
 
     @Get('me')
+    @ApiOkResponse({
+        description: 'Object of user',
+        type: GetUserDto,
+    })
     getMe(@GetUser() user: User) {
         return user
     }

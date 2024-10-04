@@ -2,8 +2,10 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGua
 import { JwtGuard } from '../auth/guard';
 import { BookmarkService } from './bookmark.service';
 import { GetUser } from '../auth/decorator';
-import { CreateBookmarkDto, EditBookmarkDto } from './dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CreateBookmarkDto, EditBookmarkDto, GetBookmarkDto } from './dto';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Bookmark } from "@prisma/client"
+
 
 @UseGuards(JwtGuard)
 @ApiTags('Bookmark')
@@ -13,12 +15,20 @@ export class BookmarkController {
     constructor(private bookmarkService: BookmarkService) { }
 
     @Get()
-    getBookmarks(@GetUser('id') userId: number) {
+    @ApiOkResponse({
+        description: 'Array of bookmarks',
+        type: [GetBookmarkDto],
+    })
+    getBookmarks(@GetUser('id') userId: number): Promise<Bookmark[]> {
         return this.bookmarkService.getBookmarks(userId)
     }
 
     @Get(':id')
-    getBookmarkById(@GetUser('id') userId: number, @Param('id', ParseIntPipe) bookmarkId: number) {
+    @ApiOkResponse({
+        description: 'Array of bookmarks',
+        type: GetBookmarkDto,
+    })
+    getBookmarkById(@GetUser('id') userId: number, @Param('id', ParseIntPipe) bookmarkId: number): Promise<Bookmark> {
         return this.bookmarkService.getBookmarkById(userId, bookmarkId)
     }
 

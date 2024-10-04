@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from '../database/database.service';
+import { CreateProductDto, EditProductDto } from './dto';
 
 @Injectable()
 export class ProductService {
@@ -8,7 +9,7 @@ export class ProductService {
         private readonly database: DatabaseService
     ) {}
 
-    create(createProductDto: Prisma.ProductCreateInput) {
+    create(createProductDto: CreateProductDto) {
         return this.database.product.create({
             data: {
                 ...createProductDto
@@ -28,7 +29,7 @@ export class ProductService {
         return this.database.product.findMany()
     }
     
-    update(id: number, updateProductDto: Prisma.ProductUpdateInput) {
+    update(id: number, updateProductDto: EditProductDto) {
         return this.database.product.update({
             where: {
                 id: id

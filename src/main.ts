@@ -41,6 +41,7 @@ async function bootstrap() {
       ],
     },
   });
+  app.use('/api/swagger.json', (req, res) => res.send(document));     // generate swagger json url 
   await app.listen(3333);
 }
 bootstrap();

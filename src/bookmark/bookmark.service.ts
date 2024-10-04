@@ -1,12 +1,13 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateBookmarkDto, EditBookmarkDto } from './dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { Bookmark } from '@prisma/client';
 
 @Injectable()
 export class BookmarkService {
     constructor(private prisma: PrismaService) {}
     
-    getBookmarks(userId: number) {
+    getBookmarks(userId: number): Promise<Bookmark[]> {
         return this.prisma.bookmark.findMany({
             where: {
                 userId: userId
@@ -14,7 +15,7 @@ export class BookmarkService {
         })
     }
 
-    getBookmarkById(userId: number, bookmarkId: number) {
+    getBookmarkById(userId: number, bookmarkId: number): Promise<Bookmark> {
         return this.prisma.bookmark.findUnique({
             where: {
                 id: bookmarkId,
